@@ -1,6 +1,6 @@
 # Speech-to-Text Translation com Azure Speech Services
 
-Este projeto é uma aplicação C# que utiliza o **Azure Speech Services** para reconhecimento de fala e tradução em tempo real. O código converte áudio falado em inglês (`en-US`) para texto e o traduz para português (`pt-BR`).
+Este projeto é uma aplicação C# que utiliza o **Azure Speech Services** para reconhecimento de fala e tradução em tempo real. O código converte áudio falado para texto e o traduz.
 
 ## Pré-requisitos
 
@@ -13,15 +13,26 @@ Este projeto é uma aplicação C# que utiliza o **Azure Speech Services** para 
 
 1. Clone este repositório ou crie um diretório e adicione o arquivo `Program.cs` com o código fornecido.
 2. Substitua as credenciais no código:
-   ```csharp
-   string subscriptionKey = "INSIRA_AQUI_SUA_CHAVE";  
-   string region = "INSIRA_AQUI_SUA_REGIAO";
-   ```
+    ```csharp
+    string subscriptionKey = "INSIRA_AQUI_SUA_CHAVE";  
+    string region = "INSIRA_AQUI_SUA_REGIAO";
+    ```
 3. Instale o pacote do Azure Cognitive Services Speech SDK:
-   ```sh
-   dotnet add package Microsoft.CognitiveServices.Speech
-   ```
-
+    ```sh
+    dotnet add package Microsoft.CognitiveServices.Speech
+    ```
+4. Para substituir o reconhecimento de fala e atradução troque ```config.SpeechRecognitionLanguage``` e ```config.AddTargetLanguage``` por algum desses códigos:
+    ```
+    pt-BR (Português (Brasil))
+    en-US (Inglês (EUA))
+    es-ES (Espanhol (Espanha))
+    fr-FR (Francês)
+    de-DE (Alemão)
+    it-IT (Italiano)
+    ja-JP (Japonês)
+    zh-CN (Chinês Simplificado)
+    sv-SE (Sueco (Suécia))
+    ```
 ## Como Executar
 
 1. Abra o terminal na pasta do projeto.
