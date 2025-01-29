@@ -1,0 +1,17 @@
+# Pastas de build
+bin/
+obj/
+
+# Arquivos de configuração do Visual Studio
+*.user
+*.suo
+*.vs/
+.vscode/
+
+# Logs e arquivos temporários
+*.log
+speech_log.txt
+
+# Arquivos do projeto
+*.csproj.user
+*.sln.ide
