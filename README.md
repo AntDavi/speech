@@ -14,8 +14,8 @@ Este projeto é uma aplicação C# que utiliza o **Azure Speech Services** para 
 1. Clone este repositório ou crie um diretório e adicione o arquivo `Program.cs` com o código fornecido.
 2. Substitua as credenciais no código:
    ```csharp
-   string subscriptionKey = "SUA_CHAVE_AQUI";  
-   string region = "SUA_REGIAO_AQUI";
+   string subscriptionKey = "INSIRA_AQUI_SUA_CHAVE";  
+   string region = "INSIRA_AQUI_SUA_REGIAO";
    ```
 3. Instale o pacote do Azure Cognitive Services Speech SDK:
    ```sh
