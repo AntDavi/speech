@@ -2,55 +2,56 @@
 using System.Threading.Tasks;
 using Microsoft.CognitiveServices.Speech;
 using Microsoft.CognitiveServices.Speech.Translation;
+using System.Threading;
 
 class Program
 {
     static async Task Main()
     {
-        string subscriptionKey = "INSIRA_AQUI_SUA_CHAVE";  
+        string subscriptionKey = "INSIRA_AQUI_SUA_CHAVE";
         string region = "INSIRA_AQUI_SUA_REGIAO";
 
         var config = SpeechTranslationConfig.FromSubscription(subscriptionKey, region);
-        // Idioma do áudio de entrada
         config.SpeechRecognitionLanguage = "pt-BR";
-        // Idioma de saída traduzido
-        config.AddTargetLanguage("en-US"); 
-        config.SetProperty(PropertyId.Speech_LogFilename, "speech_log.txt"); // Log de depuração
+        config.AddTargetLanguage("en-US");
 
         using (var recognizer = new TranslationRecognizer(config))
         {
-            Console.WriteLine("Iniciando reconhecimento de fala...");
-            recognizer.Recognizing += (s, e) =>
-            {
-                Console.WriteLine($"DEBUG: Ouvido: {e.Result.Text}");
-            };
+            Console.WriteLine("Pressione e segure a tecla 'M' para falar...");
 
             recognizer.Recognized += (s, e) =>
             {
-                Console.WriteLine($"DEBUG: Status: {e.Result.Reason}");
                 if (e.Result.Reason == ResultReason.TranslatedSpeech)
                 {
-                    Console.WriteLine($"Texto reconhecido: {e.Result.Text}");
+                    Console.WriteLine($"Texto: {e.Result.Text}");
                     foreach (var translation in e.Result.Translations)
                     {
-                        Console.WriteLine($"Tradução [{translation.Key}]: {translation.Value}");
+                        Console.WriteLine($"Tradução ({translation.Key}): {translation.Value}");
                     }
                 }
-                else
-                {
-                    Console.WriteLine("DEBUG: Não foi possível reconhecer o áudio.");
-                }
             };
 
-            recognizer.Canceled += (s, e) =>
+            while (true)
             {
-                Console.WriteLine($"DEBUG: Erro! {e.Reason}, Código: {e.ErrorCode}, Mensagem: {e.ErrorDetails}");
-            };
+                if (Console.KeyAvailable)
+                {
+                    var key = Console.ReadKey(true);
+                    if (key.Key == ConsoleKey.M)
+                    {
+                        Console.WriteLine("Ouvindo...");
+                        await recognizer.StartContinuousRecognitionAsync();
 
-            await recognizer.StartContinuousRecognitionAsync();
-            Console.WriteLine("Pressione Enter para encerrar...");
-            Console.ReadLine();
-            await recognizer.StopContinuousRecognitionAsync();
+                        while (Console.KeyAvailable == false || Console.ReadKey(true).Key == ConsoleKey.M)
+                        {
+                            Thread.Sleep(100);
+                        }
+
+                        Console.WriteLine("Parando...");
+                        await recognizer.StopContinuousRecognitionAsync();
+                    }
+                }
+                Thread.Sleep(100);
+            }
         }
     }
 }

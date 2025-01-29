@@ -15,3 +15,5 @@ speech_log.txt
 # Arquivos do projeto
 *.csproj.user
 *.sln.ide
+
+.env
