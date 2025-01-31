@@ -8,8 +8,8 @@ class Program
 {
     static async Task Main()
     {
-        string subscriptionKey = "INSIRA_AQUI_SUA_CHAVE";
-        string region = "INSIRA_AQUI_SUA_REGIAO";
+        string subscriptionKey = "7deuIiXy1AgNTaa4wZsPeCNH56Z4Noew04c0XefQ5vPiWgQlqS7rJQQJ99BAACZoyfiXJ3w3AAAYACOGNr2c";
+        string region = "brazilsouth";
 
         var config = SpeechTranslationConfig.FromSubscription(subscriptionKey, region);
         config.SpeechRecognitionLanguage = "pt-BR";
