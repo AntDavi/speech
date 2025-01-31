@@ -1,13 +1,44 @@
 {
-    "languages": {
-        "pt-BR": "Português (Brasil)",
-        "en-US": "Inglês (EUA)",
-        "es-ES": "Espanhol (Espanha)",
-        "fr-FR": "Francês",
-        "de-DE": "Alemão",
-        "it-IT": "Italiano",
-        "ja-JP": "Japonês",
-        "zh-CN": "Chinês Simplificado",
-        "sv-SE": "Sueco (Suécia)"
-    }
+    "languages": [
+        {
+            "title": "Português (Brasil)",
+            "value": "pt-BR",
+            "voice": "pt-BR-FranciscaNeural"
+        },
+        {
+            "title": "Inglês (EUA)",
+            "value": "en-US",
+            "voice": "en-US-JennyNeural"
+        },
+        {
+            "title": "Espanhol (Espanha)",
+            "value": "es-ES",
+            "voice": "es-ES-ElviraNeural"
+        },
+        {
+            "title": "Francês",
+            "value": "fr-FR",
+            "voice": "fr-FR-DeniseNeural"
+        },
+        {
+            "title": "Alemão",
+            "value": "de-DE",
+            "voice": "de-DE-KatjaNeural"
+        },
+        {
+            "title": "Italiano",
+            "value": "it-IT",
+            "voice": "it-IT-IsabellaNeural"
+        },
+        {
+            "title": "Japonês",
+            "value": "ja-JP",
+            "voice": "ja-JP-NanamiNeural"
+        },
+        {
+            "title": "Chinês Simplificado",
+            "value": "zh-CN",
+            "voice": "zh-CN-XiaoxiaoNeural"
+        }
+    ]
 }

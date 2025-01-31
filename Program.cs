@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Microsoft.CognitiveServices.Speech;
 using Microsoft.CognitiveServices.Speech.Translation;
-using System.Threading;
 
 class Program
 {
@@ -13,44 +12,43 @@ class Program
 
         var config = SpeechTranslationConfig.FromSubscription(subscriptionKey, region);
         config.SpeechRecognitionLanguage = "pt-BR";
-        config.AddTargetLanguage("en-US");
+        config.AddTargetLanguage("en-US"); // Traduzir para inglês
 
         using (var recognizer = new TranslationRecognizer(config))
+        using (var synthesizer = new SpeechSynthesizer(SpeechConfig.FromSubscription(subscriptionKey, region)))
         {
             Console.WriteLine("Pressione e segure a tecla 'M' para falar...");
 
-            recognizer.Recognized += (s, e) =>
+            recognizer.Recognized += async (s, e) =>
             {
                 if (e.Result.Reason == ResultReason.TranslatedSpeech)
                 {
                     Console.WriteLine($"Texto: {e.Result.Text}");
+
                     foreach (var translation in e.Result.Translations)
                     {
                         Console.WriteLine($"Tradução ({translation.Key}): {translation.Value}");
+                        await synthesizer.SpeakTextAsync(translation.Value);
                     }
                 }
             };
 
             while (true)
             {
-                if (Console.KeyAvailable)
+                if (Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.M)
                 {
-                    var key = Console.ReadKey(true);
-                    if (key.Key == ConsoleKey.M)
+                    Console.WriteLine("Ouvindo...");
+                    await recognizer.StartContinuousRecognitionAsync();
+
+                    while (!Console.KeyAvailable || Console.ReadKey(true).Key != ConsoleKey.M)
                     {
-                        Console.WriteLine("Ouvindo...");
-                        await recognizer.StartContinuousRecognitionAsync();
-
-                        while (Console.KeyAvailable == false || Console.ReadKey(true).Key == ConsoleKey.M)
-                        {
-                            Thread.Sleep(100);
-                        }
-
-                        Console.WriteLine("Parando...");
-                        await recognizer.StopContinuousRecognitionAsync();
+                        await Task.Delay(100);
                     }
+
+                    Console.WriteLine("Parando...");
+                    await recognizer.StopContinuousRecognitionAsync();
                 }
-                Thread.Sleep(100);
+                await Task.Delay(100);
             }
         }
     }
