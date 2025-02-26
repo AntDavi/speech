@@ -17,7 +17,7 @@ class Program
         using (var recognizer = new TranslationRecognizer(config))
         using (var synthesizer = new SpeechSynthesizer(SpeechConfig.FromSubscription(subscriptionKey, region)))
         {
-            Console.WriteLine("Pressione e segure a tecla 'M' para falar...");
+            Console.WriteLine("Ouvindo...");
 
             recognizer.Recognized += async (s, e) =>
             {
@@ -33,23 +33,25 @@ class Program
                 }
             };
 
-            while (true)
+            // Inicia o reconhecimento contínuo
+            try
             {
-                if (Console.KeyAvailable && Console.ReadKey(true).Key == ConsoleKey.M)
-                {
-                    Console.WriteLine("Ouvindo...");
-                    await recognizer.StartContinuousRecognitionAsync();
-
-                    while (!Console.KeyAvailable || Console.ReadKey(true).Key != ConsoleKey.M)
-                    {
-                        await Task.Delay(100);
-                    }
-
-                    Console.WriteLine("Parando...");
-                    await recognizer.StopContinuousRecognitionAsync();
-                }
-                await Task.Delay(100);
+                await recognizer.StartContinuousRecognitionAsync();
+                Console.WriteLine("Reconhecimento de fala iniciado. Pressione qualquer tecla para parar...");
+                Console.ReadKey();
+                await recognizer.StopContinuousRecognitionAsync();
+                Console.WriteLine("Reconhecimento de fala parado.");
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ocorreu um erro: {ex.Message}");
+            }
+            // Mantém o programa em execução
+            Console.WriteLine("Pressione qualquer tecla para parar...");
+            Console.ReadKey();
+
+            // // Para o reconhecimento contínuo
+            // await recognizer.StopContinuousRecognitionAsync();
         }
     }
 }
